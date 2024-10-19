@@ -17,6 +17,7 @@ function App() {
       <div className=' w-mwidth h-screen flex-col justify-center'>
       <Routes>
       <Route path='/' element={<SignUp/>}></Route>
+      <Route path='/otp' element={<Otp/>}></Route>
       <Route path='/signup' element={<PhoneNumber/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/vendor' element={<Vendor/>}></Route>

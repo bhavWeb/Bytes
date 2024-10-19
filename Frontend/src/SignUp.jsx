@@ -21,9 +21,6 @@ const SignUp = () => {
           <Link to='/login'className='signin-container flex items-center justify-center w-60 h-14 my-2.5 rounded-full border-1 border-mainTheme text-gray-800 '>
           <p className='font-custom font-medium text-lg'>Sign In</p>
           </Link>
-            
-
-       
 
         </div>
 

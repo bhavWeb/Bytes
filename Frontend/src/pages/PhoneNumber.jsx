@@ -8,12 +8,12 @@ import apiRequest from '../lib/apiRequest.js'
 
 const SignUp = () => {
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
+  // const [email,setEmail] = useState("");
+  // const [password,setPassword] = useState("");
   const [error , setError] = useState("")
   const navigate = useNavigate();
 
-  const handleSubmit = e =>{
+  const handleSubmit =async e =>{
     e.preventDefault();
     setError("");
 
@@ -21,15 +21,15 @@ const SignUp = () => {
 
     const email = formData.get("email")
     const password = formData.get("password")
-
+    const name = formData.get("name");
     try{
-      const res = apiRequest.post('/signup',{
+      const res = await apiRequest.post('/signup',{
+        name,
         email,
-        password
-      });
+        password,
+      },);
 
       console.log(res);
-      console.log(res.data);
        // Check if email or password is empty
       if (!email || !password) {
         alert("Please enter both email and password.");
@@ -39,7 +39,7 @@ const SignUp = () => {
         alert(`Signup failed: ${res.statusText}`);
       } else {
         alert("Signup Successful")
-        navigate('/login')
+        navigate('/otp')
       }
     }
     catch(err){
@@ -61,6 +61,7 @@ const SignUp = () => {
         {/* <label htmlFor="phone-input" className="mb-2 text-sm font-medium text-gray-900">+91</label> */}
 
         <div className="relative w-full">
+        <input name='name' id='name-input' type="text" placeholder="Enter Your Name" className=" custom-input block p-2.5 w-full mb-2  text-sm text-gray-900 rounded-full  border-1 border-gray-300 focus:outline-none"  />
             <input name='email' id='email-input' type="text" placeholder="Enter email Id" className=" custom-input block p-2.5 w-full mb-2  text-sm text-gray-900 rounded-full  border-1 border-gray-300 focus:outline-none"  />
             <input name='password' id='password-input' type="password" placeholder="Enter Password" className=" custom-input block p-2.5 w-full mb-2  text-sm text-gray-900 rounded-full  border-1 border-gray-300 focus:outline-none"  />
             </div>

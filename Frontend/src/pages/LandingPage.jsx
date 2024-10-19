@@ -8,12 +8,15 @@ import shopping from '../images/shopping.png'
 import CanteenCard from "../components/CanteenCard"
 import Footer from "../components/Footer"
 import CanteenCardData from '../components/ItemCard'
+
+
+
 const LandingPage = () => {
   return (
     <div className="signup-container flex-col items-center justify-center w-mwidth border-x-2 bg-white">
         <div className='landing-page-header flex w-width  items-center mx-auto pt-3 mb-4  justify-around'>
             <div className="w-72 h-12 mt-8 flex flex-col justify-start">
-            <h1 className="h-5 w-36 mb-1 font-custom font-bold text-small-17 tracking-widest-b text-left">Hello, Shreya</h1>
+            <h1 className="h-5 w-36 mb-1 font-custom font-bold text-small-17 tracking-widest-b text-left">Hello, Shirya</h1>
             <p className="h-2.5 w-44 font-custom text-xs text-left text-gray-600">What do you want to order today?</p>
             </div>
             <img src={profileIcon} className="h-8 w-8 mt-5 bg-red-100 rounded-full " alt="Profile-Icon"/>

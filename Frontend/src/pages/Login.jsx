@@ -8,12 +8,12 @@ import apiRequest from '../lib/apiRequest.js'
 
 const Login = () => {
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
+  // const [email,setEmail] = useState("");
+  // const [password,setPassword] = useState("");
   const [error , setError] = useState("")
   const navigate = useNavigate();
 
-  const handleSubmit = e =>{
+  const handleSubmit = async e =>{
     e.preventDefault();
     setError("");
 
@@ -22,19 +22,20 @@ const Login = () => {
     const email = formData.get("email")
     const password = formData.get("password")
 
+    // Check if email or password is empty
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+    return; 
+    }
+
+
     try{
-      const res = apiRequest.post('/login',{
+      const res = await apiRequest.post('/login',{
         email,
         password
       });
 
-      console.log(res);
-      console.log(res.data);
-       // Check if email or password is empty
-      if (!email || !password) {
-        alert("Please enter both email and password.");
-      return; 
-  }
+
       if (res.status !== 200 && res.status !== 201) {
         alert(`Login failed: ${res.statusText}`);
       } else {

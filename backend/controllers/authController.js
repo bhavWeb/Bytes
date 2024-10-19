@@ -1,27 +1,39 @@
 import UserModel from "../Models/User.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import { sendOTPEmail , generateOTP } from "../middlewares/OtpHelper.js"
 
 export const signup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
+
+
         const user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
-                .json({ message: 'User already exists, you can login', success: false });
+                .json({ message: 'User already exists, you can login', 
+                success: false });
         }
-        const userModel = new UserModel({ name, email, password });
+
+        // Generate OTP
+        const otp = generateOTP();
+
+        // Send OTP to the user
+        await sendOTPEmail(email, otp);
+
+        
+        const userModel = new UserModel({ name, email, password ,otp});
         userModel.password = await bcrypt.hash(password, 10);
         await userModel.save();
         res.status(201)
             .json({
-                message: "Signup successfully",
+                message: "OTP sent to your email. Please Verify .",
                 success: true
             })
     } catch (err) {
         res.status(500)
             .json({
-                message: "Internal server errror",
+                message: "Error Sending OTP",
                 success: false
             })
         console.log(err);
