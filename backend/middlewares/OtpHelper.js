@@ -18,8 +18,8 @@ export const sendOTPEmail = async (email, otp) => {
         secure: false,
 
         auth: {
-            user: 'bytesOTP@gmail.com', // Your email address
-            pass: 'lykd tfse ofvq qode',  // Your email password
+            user: process.env.SMTP_EMAIL, // Your email address
+            pass: process.env.SMTP_PASSWORD,  // Your email password
         },
     });
     const mailOptions = {

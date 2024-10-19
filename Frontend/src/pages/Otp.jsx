@@ -58,7 +58,7 @@ const Otp = ()=>{
         <input
             type="text"
             value={otp}
-            onChange={handleOtpSubmit} 
+            onChange={handleInputChange} 
             maxLength={6} // Limit input to 6 digits
             className="custom-input block p-3 mb-6 w-60 text-center text-sm text-gray-900 rounded-full border border-gray-300 focus:outline-none"
             placeholder="Enter OTP"
@@ -90,9 +90,15 @@ const Otp = ()=>{
            */}
 
 
-    <Link to='/user' className='flex mx-auto items-center justify-center w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme'>
+    {/* <Link to='/user' className='flex mx-auto items-center justify-center w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme'>
   <p className='font-custom font-medium text-lg'>Next</p>
-</Link>
+</Link> */}
+
+<button
+  onClick={handleOtpSubmit}
+  className='flex mx-auto items-center justify-center w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme'>
+  <p className='font-custom font-medium text-lg'>Next</p>
+</button>
     {/* <button type="submit" className="Next-button font-custom font-medium  text-lg w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme">Next</button> */}
 </form>
         <p>Didn't receive the OTP? <Link className=' text-xs font-normal text-mainTheme underline'>Resend</Link></p>
