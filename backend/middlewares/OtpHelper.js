@@ -14,8 +14,8 @@ export const sendOTPEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use any email service you prefer
         host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
 
         auth: {
             user: process.env.SMTP_EMAIL, // Your email address
@@ -23,11 +23,18 @@ export const sendOTPEmail = async (email, otp) => {
         },
     });
     const mailOptions = {
-        from: 'bytesOTP@gmail.com',
+        from: process.env.SMTP_USERNAME,
         to: email,
         subject: 'Welcome To Bytes',
-        text: `Your OTP code is ${otp}`,
+        text: `Your OTP to Sigup is ${otp}`,
     };
 
-    await transporter.sendMail(mailOptions);
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("OTP email sent successfully.");
+    } catch (error) {
+        console.error("Error sending OTP email:", error.message);
+        throw new Error("Failed to send OTP email.");
+    }
+
 };

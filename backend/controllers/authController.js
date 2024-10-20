@@ -88,6 +88,11 @@ export const otp = async (req,res)=>{
 
     const { otp } = req.body;
 
+    // Check if OTP is provided and not empty
+    if (!otp || otp.trim() === "") {
+        return res.status(400).json({ message: "OTP is required" });
+    }
+
     try {
 
         // Find the user by email

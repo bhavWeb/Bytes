@@ -27,6 +27,12 @@ const Otp = ()=>{
     setError(""); // Reset any previous errors
 
     try {
+
+      if (!otp || otp.trim() === "") {
+        setError("Please enter the OTP");
+        return; // Stop the execution if OTP is empty
+      }
+      
       // Send OTP to the backend for verification
       const res = await apiRequest.post('/verify-otp' , {otp});
 
