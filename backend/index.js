@@ -5,11 +5,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 import bodyParser from "body-parser"
 import './Models/db.js'
+import session from "express-session"
+
 
 const app = express();
+
+app.use(session({
+    secret: process.env.JWT_SECRET_KEY, // Replace with your own secret key
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: true, // Save uninitialized session
+    cookie: { secure: false } // Set to true if using HTTPS
+  }));
+
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:5173' || process.env.FRONTEND_URL,
     methods: ['GET', 'POST' , 'PUT'],
     allowedHeaders: ['Content-Type'],
     credentials : true,

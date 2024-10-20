@@ -11,29 +11,34 @@ export const signup = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
-                .json({ message: 'User already exists, you can login', 
+                .json({ message: 'Email already exists, you can login', 
                 success: false });
         }
 
-        // Generate OTP
+        //Generate OTP
+
         const otp = generateOTP();
 
-        // Send OTP to the user
-        await sendOTPEmail(email, otp);
+        // Temporarily store user info and OTP in session
+        req.session.tempUser = { name, email, password, otp };
 
+        // Send OTP via email
+        await sendOTPEmail(email, otp);
         
-        const userModel = new UserModel({ name, email, password ,otp});
-        userModel.password = await bcrypt.hash(password, 10);
-        await userModel.save();
-        res.status(201)
-            .json({
-                message: "OTP sent to your email. Please Verify .",
-                success: true
-            })
+        // const userModel = new UserModel({ name, email, password ,otp});
+        // userModel.password = await bcrypt.hash(password, 10);
+        // await userModel.save();
+        // res.status(201)
+        //     .json({
+        //         message: "OTP sent to your email. Please Verify .",
+        //         success: true
+        //     })
+
+        res.status(200).json({ message: 'OTP sent to email' });
     } catch (err) {
         res.status(500)
             .json({
-                message: "Error Sending OTP",
+                message: "Sign Up Failed",
                 success: false
             })
         console.log(err);
@@ -79,3 +84,61 @@ export const login = async (req, res) => {
     }
 }
 
+export const otp = async (req,res)=>{
+
+    const { otp } = req.body;
+
+    try {
+
+        // Find the user by email
+        // const user = await UserModel.findOne({ email });
+
+        // if (!user || user.otp !== otp) {
+        //     return res.status(400).json({ message: 'Invalid or expired OTP' });
+        // }
+
+        // Clear the OTP after verification
+        // user.otp = null;  // Clear the OTP
+        // await user.save();
+
+        // Generate JWT token (optional)
+        // const token = jwt.sign({ email: user.email }, 'your_jwt_secret', { expiresIn: '1h' });
+
+        // res.status(200).json({ message: 'OTP verified successfully', token });
+
+        
+        const tempUser = req.session.tempUser; // Check if the session contains temporary user info
+
+        if(!tempUser){
+            return res.status(400).json({message : "Session expired or no User Data Found"})
+        }
+
+        //Verify OTP
+        if(tempUser.otp !== otp){
+            return res.status(400).json({message : "Invalid OTP"})
+        }
+
+        const userModel = new UserModel({ 
+            name : tempUser.name,
+            email :tempUser.email, 
+            password :tempUser.password
+        });
+
+        userModel.password = await bcrypt.hash(tempUser.password, 10);
+        await userModel.save();
+
+        // Clear session after successful signup
+        req.session.tempUser = null;
+        
+        res.status(201)
+            .json({
+                message: "OTP Verified , SignUp Successfull.",
+                success: true
+            })
+
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+}

@@ -9,6 +9,7 @@ import apiRequest from '../lib/apiRequest'
 const Otp = ()=>{
 
   const [otp, setOtp] = useState(""); // State to hold the OTP
+
   const [error, setError] = useState(""); // To handle errors during OTP validation
   const navigate = useNavigate(); // Hook for page redirection
 
@@ -27,12 +28,12 @@ const Otp = ()=>{
 
     try {
       // Send OTP to the backend for verification
-      const res = await apiRequest.post('/verify-otp', { email, otp });
+      const res = await apiRequest.post('/verify-otp' , {otp});
 
-      if (res.status === 200) {
+      if (res.status === 201 || res.status ==200) {
         // On successful OTP verification, redirect to the next page
         alert('OTP Verified Successfully');
-        navigate('/next-page'); // Redirect to the next page after verification
+        navigate('/landingpage'); // Redirect to the next page after verification
       } else {
         setError('OTP verification failed. Please try again.');
       }
@@ -93,7 +94,7 @@ const Otp = ()=>{
     {/* <Link to='/user' className='flex mx-auto items-center justify-center w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme'>
   <p className='font-custom font-medium text-lg'>Next</p>
 </Link> */}
-
+{error && <p style={{ color: 'red' }}>{error}</p>}
 <button
   onClick={handleOtpSubmit}
   className='flex mx-auto items-center justify-center w-60 h-14 my-2.5 rounded-full border-white text-white bg-mainTheme'>
