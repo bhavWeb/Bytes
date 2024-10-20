@@ -6,16 +6,32 @@ dotenv.config();
 import bodyParser from "body-parser"
 import './Models/db.js'
 import session from "express-session"
+import MongoStore from "connect-mongo";
 
 
 const app = express();
 
 app.use(session({
-    secret: process.env.JWT_SECRET_KEY, // Replace with your own secret key
-    resave: false, // Don't save session if unmodified
-    saveUninitialized: true, // Save uninitialized session
-    cookie: { secure: false } // Set to true if using HTTPS
-  }));
+    store: MongoStore.create({
+        mongoUrl: process.env.DATABASE_URL,
+        ttl: 14 * 24 * 60 * 60 // expiration time in seconds (optional)
+    }),
+    secret: process.env.JWT_SECRET_KEY || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 1000 * 60 * 10
+    }
+}));
+
+// app.use(session({
+//     secret: process.env.JWT_SECRET_KEY, // Replace with your own secret key
+//     resave: false, // Don't save session if unmodified
+//     saveUninitialized: true, // Save uninitialized session
+//     cookie: { secure: false } // Set to true if using HTTPS
+//   }));
 
 app.use(express.json());
 app.use(cors({
