@@ -19,7 +19,9 @@ app.use(session({
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173' || process.env.FRONTEND_URL,
+    origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL   // Use the frontend URL in production
+    : 'http://localhost:5173',    // Use localhost in development
     methods: ['GET', 'POST' , 'PUT'],
     allowedHeaders: ['Content-Type'],
     credentials : true,
