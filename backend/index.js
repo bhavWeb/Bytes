@@ -7,7 +7,7 @@ import bodyParser from "body-parser"
 import './Models/db.js'
 import session from "express-session"
 import MongoStore from "connect-mongo";
-
+import nodemailer from "nodemailer"
 
 const app = express();
 
