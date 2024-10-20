@@ -26,12 +26,34 @@ app.use(session({
     }
 }));
 
-// app.use(session({
-//     secret: process.env.JWT_SECRET_KEY, // Replace with your own secret key
-//     resave: false, // Don't save session if unmodified
-//     saveUninitialized: true, // Save uninitialized session
-//     cookie: { secure: false } // Set to true if using HTTPS
-//   }));
+//THIS IS A TEST ROUTE FOR TESTING OTPs
+app.get('/send-test-email', async (req, res) => {
+    try {
+      let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465, // SSL
+        secure: true,
+        auth: {
+          user: process.env.SMTP_EMAIL, // Your Gmail address (from Render environment variables)
+          pass: process.env.SMTP_PASSWORD, // Your Gmail password or app-specific password
+        },
+      });
+  
+      // Send test email
+      let info = await transporter.sendMail({
+        from: process.env.SMTP_USERNAME, // sender address
+        to: 'vaibhav.bhandari222@gmail.com', // replace with the email you want to send the test to
+        subject: 'Test Email from Render', // subject line
+        text: 'This is a test email sent from the deployed service on Render', // plain text body
+      });
+  
+      console.log('Message sent: %s', info.messageId);
+      res.status(200).send('Test email sent successfully');
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).send('Failed to send test email');
+    }
+  });
 
 app.use(express.json());
 app.use(cors({
