@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
 
         // Send OTP via email
         await sendOTPEmail(email, otp);
-        
+        console.log("this console log is in signup controller, this ensures that render shows the console logs");
         // const userModel = new UserModel({ name, email, password ,otp});
         // userModel.password = await bcrypt.hash(password, 10);
         // await userModel.save();

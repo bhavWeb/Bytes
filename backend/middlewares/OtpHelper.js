@@ -5,6 +5,7 @@ import nodemailer from "nodemailer"
 
 export const generateOTP = () => {
     const otp = crypto.randomInt(100000, 999999); // 6-digit OTP
+    console.log("Console Logging On Generate OTP function , if this runs, this means generateOTP function is getting called");
     console.log(otp);
     return otp.toString();
 };
@@ -22,6 +23,8 @@ export const sendOTPEmail = async (email, otp) => {
             pass: process.env.SMTP_PASSWORD,  // Your email password
         },
     });
+
+    console.log("this log is to check if sendOTPEmail function is working properly");
     const mailOptions = {
         from: process.env.SMTP_USERNAME,
         to: email,
