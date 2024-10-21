@@ -19,12 +19,14 @@ const SignUp = () => {
 
     const formData = new FormData(e.target)
 
-    const email = formData.get("email")
-    const password = formData.get("password")
-    const name = formData.get("name");
+    
 
-    console.log({ email, password, name });
+    // console.log({ email, password, name });
     try{
+      const email = formData.get("email")
+      const password = formData.get("password")
+      const name = formData.get("name");
+
       const res = await apiRequest.post('/signup',{
         name,
         email,
