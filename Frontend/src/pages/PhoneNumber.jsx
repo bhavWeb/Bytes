@@ -28,11 +28,12 @@ const SignUp = () => {
       const res = await apiRequest.post('/signup',{
         name,
         email,
-        password,
-      },);
-
+        password
+      });
+      console.log({ email, password, name });
       console.log(res);
-       // Check if email or password is empty
+      // Check if email or password is empty
+
       if (!email || !password) {
         alert("Please enter both email and password.");
       return; 
@@ -45,7 +46,8 @@ const SignUp = () => {
       }
     }
     catch(err){
-      setError(error.response.data.message)
+      setError(error.response.data.message);
+      console.log("API Error :" ,err);
     }
   }
 

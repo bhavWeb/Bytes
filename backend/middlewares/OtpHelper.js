@@ -15,8 +15,8 @@ export const sendOTPEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use any email service you prefer
         host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+        port: 567,
+        secure: false,
 
         auth: {
             user: process.env.SMTP_EMAIL, // Your email address
