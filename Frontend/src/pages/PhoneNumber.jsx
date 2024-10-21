@@ -31,7 +31,7 @@ const SignUp = () => {
         name,
         email,
         password
-      });
+      }, { withCredentials: true });
       console.log({ email, password, name });
       console.log(res);
       // Check if email or password is empty

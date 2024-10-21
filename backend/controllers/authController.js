@@ -19,7 +19,7 @@ export const signup = async (req, res) => {
         const otp = generateOTP();
 
         // Temporarily store user info and OTP in session
-        // req.session.tempUser = { name, email, password, otp };
+        req.session.tempUser = { name, email, password, otp };
 
         // Send OTP via email
         await sendOTPEmail(email, otp);
